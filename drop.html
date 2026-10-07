@@ -36,10 +36,13 @@
         <p id="join-status" class="status"></p>
       </section>
       <section id="stage" class="panel hidden">
-        <div id="zone" class="drop-zone">drop files here or click<br><span style="font-size:0.7rem;opacity:0.6">chunked · reliable · no server</span></div>
-        <input type="file" id="file-input" multiple hidden>
+        <div id="drop-zone" class="drop-zone">drop file here or pick below<br><span style="font-size:0.7rem;opacity:0.6">chunked · reliable · no server</span></div>
+        <label class="btn ghost" style="margin-top:0.75rem;display:inline-block">pick file<input type="file" id="file-input" hidden></label>
+        <p id="file-meta" class="status" style="margin-top:0.5rem"></p>
+        <div class="actions" style="margin-top:0.5rem">
+          <button type="button" id="btn-send" class="btn primary" disabled>send</button>
+        </div>
         <div class="progress hidden" id="prog"><div id="bar" class="bar"></div></div>
-        <p id="file-status" class="status"></p>
         <a id="dl" class="hidden" style="color:#00e5e5;font-size:0.85rem;display:inline-block;margin-top:0.5rem" download></a>
       </section>
     </div>
