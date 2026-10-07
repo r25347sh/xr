@@ -8,7 +8,7 @@
     try {
       var u = new URLSearchParams(location.search).get("u");
       if (!u) return null;
-      var json = JSON.parse(atob(u.replace(/-/g, "+").replace(/_/g, "/"));
+      var json = JSON.parse(atob(u.replace(/-/g, "+").replace(/_/g, "/")));
       if (!json || json.v !== 1 || !json.t) return null;
       if (Date.now() - json.t > TOKEN_TTL) return null;
       return json;
