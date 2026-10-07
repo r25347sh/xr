@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Burn</title>
+  <link rel="stylesheet" href="css/room.css">
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js" defer></script>
+  <script src="js/gate.js" data-autorun="1" defer></script>
+  <script src="js/peer-util.js" defer></script>
+  <script src="js/burn.js" defer></script>
+</head>
+<body>
+  <div id="deny" class="deny"><div class="deny-code">404</div><p class="deny-msg">not found</p></div>
+  <div id="app" class="hidden">
+    <div class="top"><a href="index.html">← hub</a><span class="name">Burn</span><span id="badge" class="badge">idle</span></div>
+    <div class="wrap">
+      <section class="panel">
+        <p style="font-size:0.78rem;color:#7a7a8a;margin-bottom:0.75rem">one-shot secret · peer receives once · then destroyed on both sides</p>
+        <label>secret text</label>
+        <textarea id="secret" placeholder="paste secret here…" style="min-height:20vh"></textarea>
+        <div class="actions">
+          <button type="button" id="btn-host" class="btn primary">create drop</button>
+          <button type="button" id="btn-join-mode" class="btn ghost">I have a link</button>
+        </div>
+        <div id="host-info" class="hidden" style="margin-top:0.75rem">
+          <div class="url-row"><input id="share-url" readonly><button type="button" id="btn-copy" class="btn ghost">copy</button></div>
+          <p id="host-status" class="status">waiting for claim…</p>
+        </div>
+        <div id="join-box" class="hidden" style="margin-top:0.75rem">
+          <label>room id</label><input type="text" id="room-input">
+          <div class="actions"><button type="button" id="btn-claim" class="btn primary">claim & burn</button></div>
+          <p id="join-status" class="status"></p>
+        </div>
+        <div id="reveal" class="hidden" style="margin-top:1rem">
+          <label>claimed secret (shown once)</label>
+          <textarea id="revealed" readonly style="min-height:20vh;border-color:rgba(255,45,149,0.4)"></textarea>
+          <p class="status err">this view is not saved · leave page to destroy</p>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div id="toast" class="toast"></div>
+</body>
+</html>
