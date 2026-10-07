@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Room</title>
+  <link rel="stylesheet" href="css/room.css">
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+  <script src="js/gate.js" data-autorun="1" defer></script>
+  <script src="js/peer-util.js" defer></script>
+  <script src="js/room-app.js" defer></script>
+</head>
+<body>
+  <div id="deny" class="deny"><div class="deny-code">404</div><p class="deny-msg">not found</p></div>
+  <div id="app" class="hidden">
+    <div class="top"><a href="index.html">← hub</a><span class="name">Room</span><span id="badge" class="badge">offline</span></div>
+    <div class="wrap">
+      <div class="mode-tabs" id="mode-tabs">
+        <button type="button" class="mode-tab active" data-mode="host">Host</button>
+        <button type="button" class="mode-tab" data-mode="join">Join</button>
+      </div>
+      <section id="panel-host" class="panel">
+        <label>name</label><input type="text" id="host-name" maxlength="24">
+        <label>passphrase (optional)</label><input type="password" id="room-pass" maxlength="64">
+        <div class="actions">
+          <button type="button" id="btn-host" class="btn primary">open</button>
+          <button type="button" id="btn-host-stop" class="btn ghost hidden">close</button>
+        </div>
+        <div id="host-info" class="hidden" style="margin-top:0.75rem">
+          <div class="url-row"><input id="share-url" readonly><button type="button" id="btn-copy" class="btn ghost">copy</button></div>
+          <div id="qr-box" class="qr-box"></div>
+        </div>
+        <p id="host-status" class="status"></p>
+      </section>
+      <section id="panel-join" class="panel hidden">
+        <label>name</label><input type="text" id="join-name" maxlength="24">
+        <label>room id</label><input type="text" id="room-input" autocomplete="off">
+        <label>passphrase</label><input type="password" id="join-pass" maxlength="64">
+        <div class="actions"><button type="button" id="btn-join" class="btn primary">join</button></div>
+        <p id="join-status" class="status"></p>
+      </section>
+      <section id="stage" class="panel hidden">
+        <div class="meta"><span id="peer-label">—</span><span id="typing" style="flex:1;font-size:0.68rem;color:#6a6a7a"></span><span id="rtt" style="font-size:0.65rem;color:#5a5a6a"></span></div>
+        <div id="screen-wrap" class="screen-wrap hidden"><video id="remote-video" autoplay playsinline></video></div>
+        <div id="chat-log" class="chat-log"></div>
+        <form id="chat-form" class="chat-form">
+          <input type="text" id="chat-input" placeholder="message" maxlength="2000" disabled>
+          <button type="submit" id="btn-send" class="btn primary" disabled>send</button>
+        </form>
+        <div class="tool-row">
+          <label class="btn ghost">file<input type="file" id="file-input" hidden></label>
+          <button type="button" id="btn-file" class="btn ghost" disabled>send file</button>
+          <button type="button" id="btn-screen" class="btn ghost" disabled>screen</button>
+          <button type="button" id="btn-dice" class="btn ghost" disabled>dice</button>
+          <button type="button" id="btn-coin" class="btn ghost" disabled>coin</button>
+          <button type="button" id="btn-clip" class="btn ghost" disabled>clipboard</button>
+        </div>
+        <div class="progress hidden" id="prog"><div id="bar" class="bar"></div></div>
+        <a id="dl" class="hidden" style="color:#00e5e5;font-size:0.85rem;display:inline-block;margin-top:0.5rem" download></a>
+      </section>
+    </div>
+  </div>
+  <div id="toast" class="toast"></div>
+</body>
+</html>
