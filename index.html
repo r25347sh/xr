@@ -6,11 +6,8 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="theme-color" content="#050505">
   <title>·</title>
-  <link rel="stylesheet" href="app.css">
-  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
-  <script src="gate.js" defer></script>
-  <script src="app.js" defer></script>
+  <link rel="stylesheet" href="css/hub.css">
+  <script src="js/gate.js" data-autorun="1" defer></script>
 </head>
 <body>
   <div id="deny" class="deny">
@@ -20,90 +17,42 @@
 
   <div id="app" class="app hidden" aria-hidden="true">
     <header class="head">
-      <div class="title">Private Room</div>
-      <div class="sub">p2p · ephemeral · no server log</div>
-      <div id="mode-badge" class="mode-badge"></div>
-      <div id="rtt" class="rtt"></div>
+      <div class="title">Private</div>
+      <p class="sub">ephemeral · p2p · no server log</p>
     </header>
-
-    <div class="mode-tabs" id="mode-tabs">
-      <button type="button" class="mode-tab active" data-mode="host">Host</button>
-      <button type="button" class="mode-tab" data-mode="join">Join</button>
-    </div>
-
-    <section id="panel-host" class="panel">
-      <label for="host-name">name</label>
-      <input type="text" id="host-name" maxlength="24" placeholder="optional" autocomplete="nickname">
-      <label for="room-pass">room passphrase (optional)</label>
-      <input type="password" id="room-pass" maxlength="64" placeholder="empty = open" autocomplete="off">
-      <div class="actions">
-        <button type="button" id="btn-host-start" class="btn primary">open room</button>
-        <button type="button" id="btn-host-stop" class="btn ghost hidden">close</button>
-      </div>
-      <div id="host-info" class="share-info hidden">
-        <label>invite link</label>
-        <div class="url-row">
-          <input type="text" id="share-url" readonly>
-          <button type="button" id="btn-copy-url" class="btn ghost">copy</button>
-        </div>
-        <div id="qr-box" class="qr-box"></div>
-        <p id="host-status" class="status">waiting…</p>
-      </div>
-    </section>
-
-    <section id="panel-join" class="panel hidden">
-      <label for="join-name">name</label>
-      <input type="text" id="join-name" maxlength="24" placeholder="optional" autocomplete="nickname">
-      <label for="room-input">room id</label>
-      <input type="text" id="room-input" placeholder="host id" autocomplete="off" spellcheck="false">
-      <label for="join-pass">passphrase (if set)</label>
-      <input type="password" id="join-pass" maxlength="64" placeholder="optional" autocomplete="off">
-      <div class="actions">
-        <button type="button" id="btn-join" class="btn primary">join</button>
-        <button type="button" id="btn-leave" class="btn ghost hidden">leave</button>
-      </div>
-      <p id="join-status" class="status"></p>
-    </section>
-
-    <section id="stage" class="panel stage hidden">
-      <div class="stage-meta">
-        <span id="peer-label">—</span>
-        <span id="typing-ind" class="typing-ind"></span>
-        <span id="conn-badge" class="badge">offline</span>
-      </div>
-      <div id="screen-wrap" class="screen-wrap hidden">
-        <video id="remote-video" autoplay playsinline></video>
-        <video id="local-video" class="pip hidden" autoplay playsinline muted></video>
-      </div>
-      <div id="board-wrap" class="board-wrap hidden">
-        <canvas id="board" width="640" height="360"></canvas>
-        <div class="board-tools">
-          <button type="button" class="btn ghost" id="btn-board-clear" data-act="clear">clear</button>
-          <input type="color" id="board-color" value="#00f5ff" title="color">
-        </div>
-      </div>
-      <div id="chat-log" class="chat-log" role="log" aria-live="polite"></div>
-      <form id="chat-form" class="chat-form">
-        <input type="text" id="chat-input" placeholder="message" maxlength="2000" autocomplete="off" disabled>
-        <button type="submit" id="btn-send" class="btn primary" disabled>send</button>
-      </form>
-      <div class="tool-row" id="tool-row">
-        <label class="btn ghost file-btn">file<input type="file" id="file-input" hidden></label>
-        <span id="file-meta" class="file-meta"></span>
-        <button type="button" id="btn-file-send" class="btn ghost" disabled>send file</button>
-        <button type="button" id="btn-screen" class="btn ghost" disabled>screen</button>
-        <button type="button" id="btn-screen-stop" class="btn ghost hidden">stop screen</button>
-        <button type="button" id="btn-board" class="btn ghost" disabled>board</button>
-        <button type="button" id="btn-voice" class="btn ghost" disabled>voice</button>
-        <button type="button" id="btn-clip" class="btn ghost" disabled>clipboard</button>
-        <button type="button" id="btn-dice" class="btn ghost" disabled>dice</button>
-        <button type="button" id="btn-coin" class="btn ghost" disabled>coin</button>
-        <button type="button" id="btn-export" class="btn ghost" disabled>export</button>
-      </div>
-      <div class="progress hidden" id="file-progress"><div id="file-bar" class="bar"></div></div>
-      <a id="download-link" class="download hidden" download></a>
-    </section>
+    <nav class="grid">
+      <a class="card" href="room.html">
+        <span class="ico">◈</span>
+        <strong>Room</strong>
+        <span>chat · file · screen · games</span>
+      </a>
+      <a class="card" href="pad.html">
+        <span class="ico">≡</span>
+        <strong>Pad</strong>
+        <span>live shared notepad</span>
+      </a>
+      <a class="card" href="board.html">
+        <span class="ico">✎</span>
+        <strong>Board</strong>
+        <span>full-screen whiteboard</span>
+      </a>
+      <a class="card" href="call.html">
+        <span class="ico">◎</span>
+        <strong>Call</strong>
+        <span>audio / video call</span>
+      </a>
+      <a class="card" href="drop.html">
+        <span class="ico">↓</span>
+        <strong>Drop</strong>
+        <span>heavy file transfer</span>
+      </a>
+      <a class="card" href="vault.html">
+        <span class="ico">▣</span>
+        <strong>Vault</strong>
+        <span>local encrypted notes</span>
+      </a>
+    </nav>
+    <p class="foot">unlock expires ~2h · close tab to wipe room state</p>
   </div>
-  <div id="toast" class="toast" role="status"></div>
 </body>
 </html>
