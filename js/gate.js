@@ -2,13 +2,25 @@
   "use strict";
   var KEY = "__g5_pr";
   var TTL = 2 * 60 * 60 * 1000;
-  var TOKEN_TTL = 15 * 60 * 1000;
+  var TOKEN_TTL = 30 * 60 * 1000;
+
+  function b64urlDecode(u) {
+    try {
+      var s = String(u).replace(/-/g, "+").replace(/_/g, "/");
+      while (s.length % 4) s += "=";
+      return atob(s);
+    } catch (e) {
+      return null;
+    }
+  }
 
   function parseU() {
     try {
       var u = new URLSearchParams(location.search).get("u");
       if (!u) return null;
-      var json = JSON.parse(atob(u.replace(/-/g, "+").replace(/_/g, "/")));
+      var raw = b64urlDecode(u);
+      if (!raw) return null;
+      var json = JSON.parse(raw);
       if (!json || json.v !== 1 || !json.t) return null;
       if (Date.now() - json.t > TOKEN_TTL) return null;
       return json;
@@ -71,10 +83,11 @@
   function requireUnlock(opts) {
     opts = opts || {};
     var joinOk = opts.allowJoin !== false && hasJoin();
-    var ok = isUnlocked() || joinOk;
-    var joinOnly = joinOk && !readStore();
+    var unlocked = isUnlocked();
+    var ok = unlocked || joinOk;
+    var joinOnly = joinOk && !readStore() && !unlocked;
 
-    if (isUnlocked()) {
+    if (unlocked) {
       ok = true;
       joinOnly = false;
     }
