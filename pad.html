@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Pad</title>
+  <link rel="stylesheet" href="css/room.css">
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js" defer></script>
+  <script src="js/gate.js" data-autorun="1" defer></script>
+  <script src="js/peer-util.js" defer></script>
+  <script src="js/pad.js" defer></script>
+</head>
+<body>
+  <div id="deny" class="deny"><div class="deny-code">404</div><p class="deny-msg">not found</p></div>
+  <div id="app" class="hidden">
+    <div class="top"><a href="index.html">← hub</a><span class="name">Pad</span><span id="badge" class="badge">offline</span></div>
+    <div class="wrap">
+      <div class="mode-tabs" id="mode-tabs">
+        <button type="button" class="mode-tab active" data-mode="host">Host</button>
+        <button type="button" class="mode-tab" data-mode="join">Join</button>
+      </div>
+      <section id="panel-host" class="panel">
+        <label>name</label><input type="text" id="host-name" maxlength="24">
+        <div class="actions">
+          <button type="button" id="btn-host" class="btn primary">open</button>
+          <button type="button" id="btn-host-stop" class="btn ghost hidden">close</button>
+        </div>
+        <div id="host-info" class="hidden" style="margin-top:0.75rem">
+          <div class="url-row"><input id="share-url" readonly><button type="button" id="btn-copy" class="btn ghost">copy</button></div>
+        </div>
+        <p id="host-status" class="status"></p>
+      </section>
+      <section id="panel-join" class="panel hidden">
+        <label>name</label><input type="text" id="join-name" maxlength="24">
+        <label>room id</label><input type="text" id="room-input" autocomplete="off">
+        <div class="actions"><button type="button" id="btn-join" class="btn primary">join</button></div>
+        <p id="join-status" class="status"></p>
+      </section>
+      <section id="stage" class="panel hidden">
+        <div class="meta"><span id="peer-label">—</span><span id="sync" style="font-size:0.65rem;color:#5a5a6a"></span></div>
+        <textarea id="pad" placeholder="shared notepad · live sync" spellcheck="false"></textarea>
+        <div class="actions">
+          <button type="button" id="btn-clear" class="btn ghost">clear</button>
+          <button type="button" id="btn-export" class="btn ghost">export</button>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div id="toast" class="toast"></div>
+</body>
+</html>
