@@ -7,7 +7,92 @@
   <meta name="theme-color" content="#050505">
   <title>·</title>
   <link rel="stylesheet" href="css/hub.css">
-  <script src="js/gate.js" data-autorun="1" defer></script>
+  <!-- Inline unlock runs first (no cache risk). unlock.js is backup for subpages. -->
+  <script>
+  (function () {
+    var KEY = "__g5x";
+    var TTL = 2 * 60 * 60 * 1000;
+    var TOKEN_TTL = 15 * 60 * 1000;
+    function now() { return Date.now(); }
+    function parseTs(v) {
+      if (v == null || v === "") return 0;
+      var n = parseInt(String(v), 10);
+      return isFinite(n) && n > 0 ? n : 0;
+    }
+    function fresh(ts, maxAge) {
+      if (!(ts > 0)) return false;
+      var d = now() - ts;
+      return d >= 0 && d < maxAge;
+    }
+    function writeStore(ts) {
+      var s = String(ts || now());
+      try { sessionStorage.setItem(KEY, s); } catch (e) {}
+      try { localStorage.setItem(KEY, s); } catch (e) {}
+    }
+    function readStore() {
+      var best = 0;
+      try {
+        var a = parseTs(sessionStorage.getItem(KEY));
+        if (fresh(a, TTL) && a > best) best = a;
+      } catch (e) {}
+      try {
+        var b = parseTs(localStorage.getItem(KEY));
+        if (fresh(b, TTL) && b > best) best = b;
+      } catch (e) {}
+      return best;
+    }
+    function hasJoin() {
+      try { return !!(new URLSearchParams(location.search).get("r")); }
+      catch (e) { return false; }
+    }
+    var fromX = 0;
+    try {
+      var x = new URLSearchParams(location.search).get("x");
+      var ts = parseTs(x);
+      if (fresh(ts, TOKEN_TTL)) fromX = ts;
+    } catch (e) {}
+    var unlocked = false;
+    if (fromX) {
+      writeStore(fromX);
+      unlocked = true;
+      try {
+        var url = new URL(location.href);
+        url.searchParams.delete("x");
+        var q = url.searchParams.toString();
+        history.replaceState(null, "", url.pathname + (q ? "?" + q : "") + url.hash);
+      } catch (e) {}
+    } else if (readStore()) {
+      unlocked = true;
+    }
+    var joinOk = hasJoin();
+    var ok = unlocked || joinOk;
+    window.__G5_XR__ = { ok: ok, joinOnly: !!(ok && !unlocked && joinOk), hasJoin: joinOk };
+    window.__G5_INLINE_UNLOCK__ = true;
+    function apply() {
+      var deny = document.getElementById("deny");
+      var app = document.getElementById("app");
+      if (!ok) {
+        if (app) { app.classList.add("hidden"); app.style.display = "none"; }
+        if (deny) { deny.classList.remove("hidden"); deny.style.display = ""; }
+        document.body.classList.remove("on");
+        return;
+      }
+      if (deny) { deny.classList.add("hidden"); deny.style.display = "none"; }
+      if (app) {
+        app.classList.remove("hidden");
+        app.style.display = "";
+        app.setAttribute("aria-hidden", "false");
+      }
+      document.body.classList.add("on");
+      try { window.dispatchEvent(new Event("g5-xr-ready")); } catch (e) {}
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", apply);
+    } else {
+      apply();
+    }
+  })();
+  </script>
 </head>
 <body>
   <div id="deny" class="deny">
