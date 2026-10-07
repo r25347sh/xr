@@ -1,6 +1,7 @@
 (function (global) {
   "use strict";
   var KEY = "__g5_pr";
+  var KEY_B = "__g5_pr_b";
   var TTL = 2 * 60 * 60 * 1000;
   var TOKEN_TTL = 30 * 60 * 1000;
 
@@ -29,29 +30,40 @@
     }
   }
 
+  function validObj(o) {
+    if (!o || o.v !== 1 || !o.t) return null;
+    if (Date.now() - o.t > TTL) return null;
+    return o;
+  }
+
   function readStore() {
     try {
       var raw = sessionStorage.getItem(KEY);
-      if (!raw) return null;
-      var o = JSON.parse(raw);
-      if (!o || o.v !== 1 || !o.t) return null;
-      if (Date.now() - o.t > TTL) {
+      if (raw) {
+        var o = validObj(JSON.parse(raw));
+        if (o) return o;
         sessionStorage.removeItem(KEY);
-        return null;
       }
-      return o;
-    } catch (e) {
-      return null;
-    }
+    } catch (e) {}
+    try {
+      var raw2 = localStorage.getItem(KEY_B);
+      if (raw2) {
+        var o2 = validObj(JSON.parse(raw2));
+        if (o2) {
+          try { sessionStorage.setItem(KEY, JSON.stringify(o2)); } catch (e) {}
+          return o2;
+        }
+        localStorage.removeItem(KEY_B);
+      }
+    } catch (e) {}
+    return null;
   }
 
   function writeStore(t) {
-    try {
-      sessionStorage.setItem(KEY, JSON.stringify({ t: t || Date.now(), v: 1 }));
-      return true;
-    } catch (e) {
-      return false;
-    }
+    var payload = JSON.stringify({ t: t || Date.now(), v: 1 });
+    try { sessionStorage.setItem(KEY, payload); } catch (e) {}
+    try { localStorage.setItem(KEY_B, payload); } catch (e) {}
+    return true;
   }
 
   function hasJoin() {
