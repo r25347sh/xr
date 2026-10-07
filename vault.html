@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Vault</title>
+  <link rel="stylesheet" href="css/room.css">
+  <script src="js/gate.js" data-autorun="1" defer></script>
+  <script src="js/vault.js" defer></script>
+</head>
+<body>
+  <div id="deny" class="deny"><div class="deny-code">404</div><p class="deny-msg">not found</p></div>
+  <div id="app" class="hidden">
+    <div class="top"><a href="index.html">← hub</a><span class="name">Vault</span><span class="badge">local</span></div>
+    <div class="wrap">
+      <section id="lock-panel" class="panel">
+        <label>master passphrase</label>
+        <input type="password" id="master" maxlength="128" autocomplete="off">
+        <div class="actions">
+          <button type="button" id="btn-unlock" class="btn primary">unlock</button>
+          <button type="button" id="btn-init" class="btn ghost">first-time setup</button>
+        </div>
+        <p id="lock-status" class="status"></p>
+        <p style="font-size:0.68rem;color:#5a5a6a;margin-top:0.75rem">AES-256-GCM · PBKDF2 210k · stored only on this device · wipe on wrong attempts optional</p>
+      </section>
+      <section id="vault-panel" class="panel hidden">
+        <div class="actions" style="margin-bottom:0.75rem">
+          <button type="button" id="btn-new" class="btn primary">new note</button>
+          <button type="button" id="btn-lock" class="btn ghost">lock</button>
+          <button type="button" id="btn-wipe" class="btn ghost">wipe all</button>
+        </div>
+        <ul id="list" class="vault-list"></ul>
+        <div id="editor" class="hidden" style="margin-top:0.75rem">
+          <label>title</label><input type="text" id="note-title" maxlength="80">
+          <label>body</label><textarea id="note-body" style="min-height:30vh"></textarea>
+          <div class="actions">
+            <button type="button" id="btn-save" class="btn primary">save</button>
+            <button type="button" id="btn-del" class="btn ghost">delete</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div id="toast" class="toast"></div>
+</body>
+</html>
