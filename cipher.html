@@ -40,8 +40,8 @@
       <section id="stage" class="panel hidden">
         <div id="chat-log" class="chat-log"></div>
         <form id="chat-form" class="chat-form">
-          <input type="text" id="chat-input" placeholder="encrypted message" maxlength="2000">
-          <button type="submit" class="btn primary">send</button>
+          <input type="text" id="chat-input" placeholder="encrypted message" maxlength="2000" disabled>
+          <button type="submit" id="btn-send" class="btn primary" disabled>send</button>
         </form>
         <p style="font-size:0.65rem;color:#5a5a6a;margin-top:0.5rem">AES-GCM · key from passphrase · ciphertext only on wire</p>
       </section>
