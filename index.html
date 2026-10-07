@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="theme-color" content="#050505">
+  <title>·</title>
+  <link rel="stylesheet" href="app.css">
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+  <script src="gate.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div id="deny" class="deny">
+    <div class="deny-code">404</div>
+    <p class="deny-msg">not found</p>
+  </div>
+
+  <div id="app" class="app hidden" aria-hidden="true">
+    <header class="head">
+      <div class="title">Private Room</div>
+      <div class="sub">p2p · ephemeral · no server log</div>
+      <div id="mode-badge" class="mode-badge"></div>
+    </header>
+
+    <div class="mode-tabs" id="mode-tabs">
+      <button type="button" class="mode-tab active" data-mode="host">Host</button>
+      <button type="button" class="mode-tab" data-mode="join">Join</button>
+    </div>
+
+    <section id="panel-host" class="panel">
+      <label for="host-name">name</label>
+      <input type="text" id="host-name" maxlength="24" placeholder="optional" autocomplete="nickname">
+      <label for="room-pass">room passphrase (optional)</label>
+      <input type="password" id="room-pass" maxlength="64" placeholder="empty = open" autocomplete="off">
+      <div class="actions">
+        <button type="button" id="btn-host-start" class="btn primary">open room</button>
+        <button type="button" id="btn-host-stop" class="btn ghost hidden">close</button>
+      </div>
+      <div id="host-info" class="share-info hidden">
+        <label>invite link</label>
+        <div class="url-row">
+          <input type="text" id="share-url" readonly>
+          <button type="button" id="btn-copy-url" class="btn ghost">copy</button>
+        </div>
+        <div id="qr-box" class="qr-box"></div>
+        <p id="host-status" class="status">waiting…</p>
+      </div>
+    </section>
+
+    <section id="panel-join" class="panel hidden">
+      <label for="join-name">name</label>
+      <input type="text" id="join-name" maxlength="24" placeholder="optional" autocomplete="nickname">
+      <label for="room-input">room id</label>
+      <input type="text" id="room-input" placeholder="host id" autocomplete="off" spellcheck="false">
+      <label for="join-pass">passphrase (if set)</label>
+      <input type="password" id="join-pass" maxlength="64" placeholder="optional" autocomplete="off">
+      <div class="actions">
+        <button type="button" id="btn-join" class="btn primary">join</button>
+        <button type="button" id="btn-leave" class="btn ghost hidden">leave</button>
+      </div>
+      <p id="join-status" class="status"></p>
+    </section>
+
+    <section id="stage" class="panel stage hidden">
+      <div class="stage-meta">
+        <span id="peer-label">—</span>
+        <span id="conn-badge" class="badge">offline</span>
+      </div>
+      <div id="screen-wrap" class="screen-wrap hidden">
+        <video id="remote-video" autoplay playsinline></video>
+        <video id="local-video" class="pip hidden" autoplay playsinline muted></video>
+      </div>
+      <div id="chat-log" class="chat-log" role="log" aria-live="polite"></div>
+      <form id="chat-form" class="chat-form">
+        <input type="text" id="chat-input" placeholder="message" maxlength="2000" autocomplete="off" disabled>
+        <button type="submit" id="btn-send" class="btn primary" disabled>send</button>
+      </form>
+      <div class="tool-row">
+        <label class="btn ghost file-btn">file
+          <input type="file" id="file-input" hidden>
+        </label>
+        <span id="file-meta" class="file-meta"></span>
+        <button type="button" id="btn-file-send" class="btn ghost" disabled>send file</button>
+        <button type="button" id="btn-screen" class="btn ghost" disabled>share screen</button>
+        <button type="button" id="btn-screen-stop" class="btn ghost hidden">stop share</button>
+      </div>
+      <div class="progress hidden" id="file-progress"><div id="file-bar" class="bar"></div></div>
+      <a id="download-link" class="download hidden" download></a>
+    </section>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+</body>
+</html>
