@@ -15,7 +15,8 @@
   function fresh(ts, maxAge) {
     if (!(ts > 0)) return false;
     var d = now() - ts;
-    return d >= 0 && d < maxAge;
+    /* allow up to 60s clock skew into the future */
+    return d > -60000 && d < maxAge;
   }
 
   function readStore() {

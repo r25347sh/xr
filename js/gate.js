@@ -17,7 +17,10 @@
   }
 
   function fresh(ts, window) {
-    return ts > 0 && (now() - ts) >= 0 && (now() - ts) < window;
+    if (!(ts > 0)) return false;
+    var d = now() - ts;
+    /* allow up to 60s clock skew into the future */
+    return d > -60000 && d < window;
   }
 
   function readStore() {
